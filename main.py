@@ -66,6 +66,19 @@ def create_post_done():
     conn.close()
     return "Post created" # TODO: Should redirect to profile
 
+# read post
+@app.route("/posts/<postid>", methods=['GET', 'POST'])
+def display2(postid):
+    postid = str(postid)
+    conn = sqlite3.connect('./data/reddit.db')
+    c = conn.cursor()
+    post9 = (c.execute("SELECT userID,title,content from posts where post_id = ?", (postid,)).fetchall())
+    message = f"The user is {post9[0][0]}. Title is {post9[0][1]}. Content is {post9[0][2]}. "
+    return message # TODO: Read Post frontend
+    # conn.commit()
+    # conn.close()
+    # return flask.render_template('view1.html', message = message, id1 = id)
+
 if __name__ == '__main__':
     # Start the server
     app.run(port=8001, host='127.0.0.1', debug=True, use_evalex=False)
