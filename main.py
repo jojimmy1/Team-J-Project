@@ -23,6 +23,13 @@ def submit_form():
     last_name = flask.request.form['lname']
     userID = flask.request.form['userID']
     hashcode = hash_id(userID)
+    
+    #if same id, link to already exist
+    check1 = (c.execute("SELECT * from users where userID = ?", (userID,)).fetchall())
+    if (check1 != []):
+        url1 = f"/{hashcode}/profile"
+        return redirect(url1)
+    
     print('Hashcode: ' + str(hashcode))
     user = (first_name, last_name, userID, hashcode)
     c.execute('INSERT INTO users VALUES(?, ?, ?, ?)', user)
@@ -100,7 +107,7 @@ def seeall(hashedcode):
     for element in (fetchall):
         db_dict.update({element[0]: element[1]})
     print(db_dict)
-    return flask.render_template('view2.html', data = db_dict)
+    return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode)
 
 if __name__ == '__main__':
     # Start the server
