@@ -16,3 +16,10 @@ CREATE TABLE posts(
     FOREIGN KEY (userID)
         REFERENCES users (userID)
 );
+
+CREATE TABLE vote(
+    post_id text primary key,
+    userID text,
+	FOREIGN KEY (post_id)
+        REFERENCES posts (post_id)
+);
