@@ -7,7 +7,8 @@ def hash_id(id): # Creates 8 digit hashcode (int)
     return abs(hash(id)) % (10 ** 8)
 #############################
 
-app = flask.Flask(__name__)
+# app = flask.Flask(__name__)
+app = flask.Flask(__name__, static_folder='styles/')
 
 @app.route("/register", methods=['GET','POST'])
 def register():
@@ -78,6 +79,23 @@ def display2(postid):
     # conn.commit()
     # conn.close()
     # return flask.render_template('view1.html', message = message, id1 = id)
+
+# profile page
+@app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
+def seeall(hashedcode): 
+    db_dict = {}
+    conn = sqlite3.connect('data/reddit.db')
+    c = conn.cursor()
+    
+    #get id
+    id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
+    id = id[0][2]
+    
+    fetchall = (c.execute("SELECT title,content from posts WHERE userID = ? ORDER BY create_time DESC", (id,)).fetchall())
+    for element in (fetchall):
+        db_dict.update({element[0]: element[1]})
+    print(db_dict)
+    return flask.render_template('view2.html', data = db_dict)
 
 if __name__ == '__main__':
     # Start the server
