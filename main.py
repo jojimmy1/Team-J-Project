@@ -1,6 +1,7 @@
 import flask
 import sqlite3
 import datetime
+from flask import abort, redirect, url_for
 
 ######## HELPERS ############
 def hash_id(id): # Creates 8 digit hashcode (int)
@@ -26,7 +27,9 @@ def submit_form():
     user = (first_name, last_name, userID, hashcode)
     c.execute('INSERT INTO users VALUES(?, ?, ?, ?)', user)
     conn.commit()
-    return "User has been created." # TODO: this should link to Feed page
+    # return "User has been created." # TODO: this should link to Feed page
+    url1 = f"/{hashcode}/profile"
+    return redirect(url1)
 
 @app.route("/<hashedcode>/create", methods=['GET', 'POST'])
 def create_post(hashedcode):
@@ -65,7 +68,9 @@ def create_post_done():
     
     conn.commit()
     conn.close()
-    return "Post created" # TODO: Should redirect to profile
+    # return "Post created" # TODO: Should redirect to profile
+    url1 = f"/{hashedcode}/profile"
+    return redirect(url1)
 
 # read post
 @app.route("/posts/<postid>", methods=['GET', 'POST'])
