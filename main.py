@@ -25,8 +25,9 @@ def submit_form():
     hashcode = hash_id(userID)
     
     #if same id, link to already exist
-    check1 = (c.execute("SELECT * from users where userID = ?", (userID,)).fetchall())
+    check1 = (c.execute("SELECT hashcode from users where userID = ?", (userID,)).fetchall())
     if (check1 != []):
+        hashcode = check1[0][0]
         url1 = f"/{hashcode}/profile"
         return redirect(url1)
     
