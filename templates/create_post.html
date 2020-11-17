@@ -10,21 +10,33 @@
 </head>
 <body>
 
-<h1>Create a new post</h1>
+    <div class="container">
+        
+        <h1>Create a new post</h1>
+    
+        <form action="/create_done" method="POST" id = "form">
 
-<form action="/create_done" method="POST" id = "form">
-    <label for="title1">Title:</label>
-    <input type="text" id="title1" name="title1"><br><br>
-	
-    <label for="content1">Content:</label>
-    <input type="text" id="content1" name="content1"><br><br>
-	
-	<input type="hidden" id="id2" name="id2" value={{hashedcode}}>
-	
-    <input type="submit" value="Submit">
-</form>
+            <div class="form-group">
+                <label for="title1">Title <span class="require">(required)</span></label>
+                <input type="text" class="form-control" name="title1" id="title1"/>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea rows="5" class="form-control" name="content1" id="content1"></textarea>
+            </div>
+            
+            <input type="hidden" id="id2" name="id2" value={{hashedcode}}>
+            
+            <div class="form-group">
+                <button type="submit" value="Submit" class="btn btn-primary">
+                    Create Post
+                </button>
+            </div>
 
-<p>Click on the submit button to submit.</p>
+        </form>
+
+    </div>
 
 </body>
 </html>

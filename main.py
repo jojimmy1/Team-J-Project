@@ -17,7 +17,7 @@ def register():
 
 @app.route("/createUser", methods=['POST'])
 def submit_form():
-    conn = sqlite3.connect('data/reddit.db')
+    conn = sqlite3.connect('data/database.db')
     c = conn.cursor()
     first_name = flask.request.form['fname']
     last_name = flask.request.form['lname']
@@ -45,7 +45,7 @@ def create_post(hashedcode):
 
 @app.route("/create_done", methods=['POST'])
 def create_post_done():
-    conn = sqlite3.connect('./data/reddit.db')
+    conn = sqlite3.connect('./data/database.db')
     c = conn.cursor()
     
     #get user id
@@ -84,7 +84,7 @@ def create_post_done():
 @app.route("/posts/<postid>", methods=['GET', 'POST'])
 def display2(postid):
     postid = str(postid)
-    conn = sqlite3.connect('./data/reddit.db')
+    conn = sqlite3.connect('./data/database.db')
     c = conn.cursor()
     post9 = (c.execute("SELECT userID,title,content from posts where post_id = ?", (postid,)).fetchall())
     message = f"The user is {post9[0][0]}. Title is {post9[0][1]}. Content is {post9[0][2]}. "
@@ -97,7 +97,7 @@ def display2(postid):
 @app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
 def seeall(hashedcode): 
     db_dict = {}
-    conn = sqlite3.connect('data/reddit.db')
+    conn = sqlite3.connect('data/database.db')
     c = conn.cursor()
     
     #get id
@@ -112,4 +112,4 @@ def seeall(hashedcode):
 
 if __name__ == '__main__':
     # Start the server
-    app.run(port=8001, host='127.0.0.1', debug=True, use_evalex=False)
+    app.run(port=8002, host='127.0.0.1', debug=True, use_evalex=False)
