@@ -104,9 +104,9 @@ def seeall(hashedcode):
     id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
     id = id[0][2]
     
-    fetchall = (c.execute("SELECT title,content from posts WHERE userID = ? ORDER BY create_time DESC", (id,)).fetchall())
+    fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC", (id,)).fetchall())
     for element in (fetchall):
-        db_dict.update({element[0]: element[1]})
+        db_dict.update({(element[0],element[2]): element[1]})
     print(db_dict)
     return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode)
 

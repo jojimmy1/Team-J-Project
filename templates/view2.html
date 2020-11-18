@@ -35,8 +35,8 @@
 {% for key,value in data.items() %}
   
   <tr>
-    <td>{{key}}</td>
-    <td>{{value}}</td>
+    <td>{{key[0]}}</td>
+    <td>{{value}} <a href="/posts/{{key[1]}}">VIEW</a></td>
   </tr>
 {% endfor %}
 </table>
