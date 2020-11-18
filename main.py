@@ -87,11 +87,12 @@ def display2(postid):
     conn = sqlite3.connect('./data/database.db')
     c = conn.cursor()
     post9 = (c.execute("SELECT userID,title,content from posts where post_id = ?", (postid,)).fetchall())
-    message = f"The user is {post9[0][0]}. Title is {post9[0][1]}. Content is {post9[0][2]}. "
-    return message # TODO: Read Post frontend
+    hashid1 = (c.execute("SELECT hashcode from users where userID = ?", (post9[0][0],)).fetchall())
+    # message = f"The user is {post9[0][0]}. Title is {post9[0][1]}. Content is {post9[0][2]}. "
+    # return message # TODO: Read Post frontend
     # conn.commit()
     # conn.close()
-    # return flask.render_template('view1.html', message = message, id1 = id)
+    return flask.render_template('view_post.html', content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashid1[0][0])
 
 # profile page
 @app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
