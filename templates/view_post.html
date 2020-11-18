@@ -1,14 +1,38 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Portfolio Webpage</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-	</head>
+<html lang="en">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+	</script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-	<body>
-		<h2>Title: {{title1}}</h2>
-		<p>User ID: {{id1}}</p>
-		<p>Content: {{content1}}</p>
-		<td><a href="/{{hashid1}}/profile">Back to Profile</a></td>
-	</body>
+	<title>Portfolio Webpage</title>
+</head>
+
+<body>
+	<div class="container">
+		
+		<div class="col-md-10 blogShort">
+			<br>
+			<div class="row">
+				<div class="col-xs-8">
+					<h1>{{title1}}</h1>
+				</div>
+				<div class="col-xs-4">
+					<h1>{{id1}}</h1>
+				</div>
+			</div>
+			<br>
+			<article>
+				<p>{{content1}}</p>
+			</article>
+			<br>
+			<td><a href="/{{hashid1}}/profile">Back to Profile</a></td>
+		</div>
+
+	</div>
+</body>
+
 </html>
