@@ -2,7 +2,8 @@ CREATE TABLE users(
     first_name text,
     last_name text,
     userID text primary key,
-    hashcode int
+    hashcode int,
+	filename1 text
 );
 
 CREATE TABLE posts(

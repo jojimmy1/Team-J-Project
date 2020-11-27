@@ -18,7 +18,7 @@ app = flask.Flask(__name__, static_folder='styles/')
 def register():
     return flask.render_template("register.html")
 
-app.config["IMGU"] = "./data"
+app.config["IMGU"] = "./styles/pic"
 @app.route("/createUser", methods=['POST'])
 def submit_form():
     conn = sqlite3.connect('data/database.db')
@@ -28,11 +28,14 @@ def submit_form():
     userID = flask.request.form['userID']
     hashcode = hash_id(userID)
     
+    filename1 = '0.jpg'
     if flask.request.files:
         print('111111111111111112222222222222')
         image = flask.request.files["image"]
-        print(type(image))
-        image.save(os.path.join(app.config["IMGU"], "test123"))
+        if (image.filename != ''):
+            # filename = id + original file name. Add to database
+            filename1 = userID + image.filename
+            image.save(os.path.join(app.config["IMGU"], filename1))
     
     #if same id, link to already exist
     check1 = (c.execute("SELECT hashcode from users where userID = ?", (userID,)).fetchall())
@@ -42,8 +45,13 @@ def submit_form():
         return redirect(url1)
     
     print('Hashcode: ' + str(hashcode))
-    user = (first_name, last_name, userID, hashcode)
-    c.execute('INSERT INTO users VALUES(?, ?, ?, ?)', user)
+    
+    if (filename1 != '0.jpg'):
+        user = (first_name, last_name, userID, hashcode,filename1)
+        c.execute('INSERT INTO users VALUES(?, ?, ?, ?,?)', user)
+    else:
+        user = (first_name, last_name, userID, hashcode,filename1)
+        c.execute('INSERT INTO users VALUES(?, ?, ?, ?,?)', user)
     conn.commit()
     # return "User has been created." # TODO: this should link to Feed page
     url1 = f"/{hashcode}/feed"
@@ -119,14 +127,18 @@ def seeall(hashedcode):
     id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
     id = id[0][2]
     
-    name1 = (c.execute("SELECT first_name,last_name from users WHERE userID = ?", (id,)).fetchall())
+    name1 = (c.execute("SELECT first_name,last_name,filename1 from users WHERE userID = ?", (id,)).fetchall())
     name2 = name1[0][0] + ' ' + name1[0][1]
+    filename1 = name1[0][2]
+    filename2 = "/styles/../styles/pic/" + filename1
+    filename1 = filename2
+    print(filename1)
     
     fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC", (id,)).fetchall())
     for element in (fetchall):
         db_dict.update({(element[0],element[2]): element[1]})
     print(db_dict)
-    return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode, name2 = name2)
+    return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode, name2 = name2, filename1 = filename1)
 
 #feed page
 @app.route("/<hashedcode>/feed", methods=['GET', 'POST'])
