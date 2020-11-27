@@ -3,7 +3,8 @@ import sqlite3
 # import datetime
 from datetime import datetime
 from datetime import timedelta
-from flask import abort, redirect, url_for, render_template, request, jsonify 
+from flask import abort, redirect, url_for, render_template, request, jsonify
+import os
 
 ######## HELPERS ############
 def hash_id(id): # Creates 8 digit hashcode (int)
@@ -17,6 +18,7 @@ app = flask.Flask(__name__, static_folder='styles/')
 def register():
     return flask.render_template("register.html")
 
+app.config["IMGU"] = "./data"
 @app.route("/createUser", methods=['POST'])
 def submit_form():
     conn = sqlite3.connect('data/database.db')
@@ -25,6 +27,12 @@ def submit_form():
     last_name = flask.request.form['lname']
     userID = flask.request.form['userID']
     hashcode = hash_id(userID)
+    
+    if flask.request.files:
+        print('111111111111111112222222222222')
+        image = flask.request.files["image"]
+        print(type(image))
+        image.save(os.path.join(app.config["IMGU"], "test123"))
     
     #if same id, link to already exist
     check1 = (c.execute("SELECT hashcode from users where userID = ?", (userID,)).fetchall())
