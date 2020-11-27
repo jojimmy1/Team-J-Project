@@ -123,11 +123,15 @@ def feedpage(hashedcode):
     # list of tuple
     id = id[0][2]
     
+    name1 = (c.execute("SELECT first_name,last_name from users WHERE userID = ?", (id,)).fetchall())
+    name2 = name1[0][0] + ' ' + name1[0][1]
+    print(name2)
+    
     fetchall = (c.execute("SELECT title,content,post_id,vote_count from posts WHERE userID != ? ORDER BY create_time DESC", (id,)).fetchall())
     for element in (fetchall):
         db_dict.update({(element[0],element[2]): (element[1],element[3])})
     print(db_dict)
-    return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode)
+    return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode, name2 = name2)
 
 
 @app.route('/vote', methods=['POST'])
