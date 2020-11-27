@@ -1,6 +1,8 @@
 import flask
 import sqlite3
-import datetime
+# import datetime
+from datetime import datetime
+from datetime import timedelta
 from flask import abort, redirect, url_for, render_template, request, jsonify 
 
 ######## HELPERS ############
@@ -57,7 +59,7 @@ def create_post_done():
     #capture info
     title1 = flask.request.form['title1']
     content1 = flask.request.form['content1']
-    time1 = datetime.datetime.now()
+    time1 = datetime.now()
     time1 = str(time1)
     vote_count = 0
     
@@ -134,9 +136,16 @@ def feedpage(hashedcode):
     name2 = name1[0][0] + ' ' + name1[0][1]
     print(name2)
     
-    fetchall = (c.execute("SELECT title,content,post_id,vote_count from posts WHERE userID != ? ORDER BY create_time DESC", (id,)).fetchall())
+    fetchall = (c.execute("SELECT title,content,post_id,vote_count,create_time from posts WHERE userID != ? ORDER BY create_time DESC", (id,)).fetchall())
     for element in (fetchall):
-        db_dict.update({(element[0],element[2]): (element[1],element[3])})
+        timeget = datetime.strptime(element[4], "%Y-%m-%d %H:%M:%S.%f")
+        now1 = datetime.now()
+        diff1 = now1 - timeget
+        daysec = 24 * 60 * 60 * (diff1.days)
+        totalsec = daysec + diff1.seconds
+        half60 = totalsec / 60 / 60
+        half30 = 0.5*round(half60/0.5)
+        db_dict.update({(element[0],element[2]): (element[1],element[3],half30)})
     print(db_dict)
     return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode, name2 = name2)
 
@@ -159,7 +168,7 @@ def vote1():
     if (check1 != []):
         return jsonify({'error' : 'Already voted!'})
     
-    time1 = datetime.datetime.now()
+    time1 = datetime.now()
     time1 = str(time1)
     idx = hash_id(time1)
     idx_str = str(idx)

@@ -89,6 +89,7 @@ $(document).ready(function() {
   <tr>
 	<th>Title</th>
     <th>Content</th>
+	<th>Time</th>
 	<th>Vote Count</th>
 	<th>Vote</th>
   </tr>
@@ -97,6 +98,7 @@ $(document).ready(function() {
   <tr>
     <td><a href="/posts/{{key[1]}}/{{hashedcode}}">{{key[0]}}</td>
     <td>{{value[0]}}</td>
+	<td>{{value[2]}} hour(s) ago</td>
 	<td id='vote00{{key[1]}}'>{{value[1]}}</td>
 	<td><form id='hi1{{key[1]}}' class="form-inline">
 		<input type="hidden" id="id11{{key[1]}}" name="id11" value={{hashedcode}}>
