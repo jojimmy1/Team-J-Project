@@ -35,9 +35,9 @@
 {% for key,value in data.items() %}
   
   <tr>
-    <td>{{key[0]}}</td>
+    <td><a href="/posts/{{key[1]}}/{{hashedcode}}">{{key[0]}}</td>
     <td>{{value}}</td>
-	<td><a href="/posts/{{key[1]}}">VIEW</a></td>
+	<!-- <td><a href="/posts/{{key[1]}}">VIEW</a></td> -->
   </tr>
 {% endfor %}
 </table>

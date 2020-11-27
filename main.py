@@ -1,7 +1,7 @@
 import flask
 import sqlite3
 import datetime
-from flask import abort, redirect, url_for
+from flask import abort, redirect, url_for, render_template, request, jsonify 
 
 ######## HELPERS ############
 def hash_id(id): # Creates 8 digit hashcode (int)
@@ -81,18 +81,18 @@ def create_post_done():
     return redirect(url1)
 
 # read post
-@app.route("/posts/<postid>", methods=['GET', 'POST'])
-def display2(postid):
+@app.route("/posts/<postid>/<hashedcode>", methods=['GET', 'POST'])
+def display2(postid,hashedcode):
     postid = str(postid)
     conn = sqlite3.connect('./data/database.db')
     c = conn.cursor()
     post9 = (c.execute("SELECT userID,title,content from posts where post_id = ?", (postid,)).fetchall())
-    hashid1 = (c.execute("SELECT hashcode from users where userID = ?", (post9[0][0],)).fetchall())
+    # hashid1 = (c.execute("SELECT hashcode from users where userID = ?", (post9[0][0],)).fetchall())
     # message = f"The user is {post9[0][0]}. Title is {post9[0][1]}. Content is {post9[0][2]}. "
     # return message # TODO: Read Post frontend
     # conn.commit()
     # conn.close()
-    return flask.render_template('view_post.html', content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashid1[0][0])
+    return flask.render_template('view_post.html', content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashedcode)
 
 # profile page
 @app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
@@ -110,6 +110,52 @@ def seeall(hashedcode):
         db_dict.update({(element[0],element[2]): element[1]})
     print(db_dict)
     return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode)
+
+#feed page
+@app.route("/<hashedcode>/feed", methods=['GET', 'POST'])
+def feedpage(hashedcode): 
+    db_dict = {}
+    conn = sqlite3.connect('data/database.db')
+    c = conn.cursor()
+    
+    #get id
+    id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
+    # list of tuple
+    id = id[0][2]
+    
+    fetchall = (c.execute("SELECT title,content,post_id,vote_count from posts WHERE userID != ? ORDER BY create_time DESC", (id,)).fetchall())
+    for element in (fetchall):
+        db_dict.update({(element[0],element[2]): (element[1],element[3])})
+    print(db_dict)
+    return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode)
+
+
+@app.route('/vote', methods=['POST'])
+def vote1():
+    conn = sqlite3.connect('data/database.db')
+    c = conn.cursor()
+    userid = flask.request.form['userid']
+    count1 = flask.request.form['count1']
+    postid = flask.request.form['postid']
+    
+    print(userid,count1,postid)
+    return jsonify({'error' : 'Missing data!'})
+    
+    # check1 = (c.execute("SELECT post_id from vote where userID = ? AND post_id = ?", (userid,postid)).fetchall())
+    # if (check1 != []):
+        # return jsonify({'error' : 'Already voted!'})
+    
+    # count1 = int(count1)
+    # newcount = (c.execute("SELECT vote_count from posts where post_id = ?", (postid,)).fetchall())
+    # newcount = newcount[0][0]
+    # newcount = newcount + count1
+    
+    # set1 = (newcount,postid)
+    # c.execute('UPDATE posts SET vote_count = ? WHERE post_id = ?', set1)
+    # return jsonify({'count' : newcount})
+
+    
+    
 
 if __name__ == '__main__':
     # Start the server
