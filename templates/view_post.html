@@ -12,6 +12,10 @@
 </head>
 
 <body>
+<a href="/{{hashedcode}}/feed">
+<img src="{{ url_for('static', filename='../styles/pic/logo.jpg') }}" alt="logo" style="width:120px;height:42px;">
+</a>
+<a href="/{{hashedcode}}/profile" style="float:right">{{name2}}</a>
 	<div class="container">
 		
 		<div class="col-md-10 blogShort">
@@ -29,7 +33,7 @@
 				<p>{{content1}}</p>
 			</article>
 			<br>
-			<td><a href="/{{hashid1}}/profile">Back to Profile</a></td>
+			<!-- <td><a href="/{{hashid1}}/profile">Back to Profile</a></td> -->
 		</div>
 
 	</div>

@@ -28,7 +28,7 @@ def submit_form():
     check1 = (c.execute("SELECT hashcode from users where userID = ?", (userID,)).fetchall())
     if (check1 != []):
         hashcode = check1[0][0]
-        url1 = f"/{hashcode}/profile"
+        url1 = f"/{hashcode}/feed"
         return redirect(url1)
     
     print('Hashcode: ' + str(hashcode))
@@ -36,7 +36,7 @@ def submit_form():
     c.execute('INSERT INTO users VALUES(?, ?, ?, ?)', user)
     conn.commit()
     # return "User has been created." # TODO: this should link to Feed page
-    url1 = f"/{hashcode}/profile"
+    url1 = f"/{hashcode}/feed"
     return redirect(url1)
 
 @app.route("/<hashedcode>/create", methods=['GET', 'POST'])
@@ -86,13 +86,17 @@ def display2(postid,hashedcode):
     postid = str(postid)
     conn = sqlite3.connect('./data/database.db')
     c = conn.cursor()
+    
+    name1 = (c.execute("SELECT first_name,last_name from users WHERE hashcode = ?", (hashedcode,)).fetchall())
+    name2 = name1[0][0] + ' ' + name1[0][1]
+    
     post9 = (c.execute("SELECT userID,title,content from posts where post_id = ?", (postid,)).fetchall())
     # hashid1 = (c.execute("SELECT hashcode from users where userID = ?", (post9[0][0],)).fetchall())
     # message = f"The user is {post9[0][0]}. Title is {post9[0][1]}. Content is {post9[0][2]}. "
     # return message # TODO: Read Post frontend
     # conn.commit()
     # conn.close()
-    return flask.render_template('view_post.html', content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashedcode)
+    return flask.render_template('view_post.html', content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashedcode, hashedcode = hashedcode, name2 = name2)
 
 # profile page
 @app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
@@ -105,11 +109,14 @@ def seeall(hashedcode):
     id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
     id = id[0][2]
     
+    name1 = (c.execute("SELECT first_name,last_name from users WHERE userID = ?", (id,)).fetchall())
+    name2 = name1[0][0] + ' ' + name1[0][1]
+    
     fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC", (id,)).fetchall())
     for element in (fetchall):
         db_dict.update({(element[0],element[2]): element[1]})
     print(db_dict)
-    return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode)
+    return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode, name2 = name2)
 
 #feed page
 @app.route("/<hashedcode>/feed", methods=['GET', 'POST'])
