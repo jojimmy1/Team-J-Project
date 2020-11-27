@@ -138,7 +138,7 @@ def vote1():
     count1 = flask.request.form['count1']
     postid = flask.request.form['postid']
     
-    # print("1111111111111111111111111111111111111\nweoriuwer")
+    print("1111111111111111111111111111111111111\nweoriuwer")
     
     id = (c.execute("SELECT userID from users where hashcode = ?", (userid,)).fetchall())
     userid = id[0][0]

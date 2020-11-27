@@ -1,10 +1,11 @@
 $(document).ready(function() { 
-		$('#hi1').on('submit',function(event) { 
+		$('form').on('submit',function(event) { 
+			prompt("You have alreday voted.")
 			$.ajax({
 			data : {
-				userid : $('#id11').val(),
-				count1 : $('#count11').val(),
-				postid : $('#post11').val()
+				userid : $('#userid').val(),
+				count1 : $('#count1').val(),
+				post1 : $('#postid').val()
 			},
 			type : 'POST',
 			url : '/vote'
@@ -12,11 +13,10 @@ $(document).ready(function() {
 		.done(function(data) {
 
 			if (data.error) {
-				alert("You have alreday voted.")
+				prompt("You have alreday voted.")
 			}
 			else {
 				$("#vote00").text(data.count);
-			}
 		});
 
 		event.preventDefault();
