@@ -138,7 +138,6 @@ def vote1():
     count1 = flask.request.form['count1']
     postid = flask.request.form['postid']
     
-    print("1111111111111111111111111111111111111\nweoriuwer")
     
     id = (c.execute("SELECT userID from users where hashcode = ?", (userid,)).fetchall())
     userid = id[0][0]
@@ -173,6 +172,27 @@ def vote1():
     conn.commit()
     conn.close()
     return jsonify({'count' : newcount})
+
+@app.route('/delete', methods=['POST'])
+def delete1():
+    print('hiiiiiiiii')
+    conn = sqlite3.connect('data/database.db')
+    c = conn.cursor()
+    postid = flask.request.form['postid']
+    
+    #check if id unique
+    check1 = (c.execute("SELECT * from posts where post_id = ?", (postid,)).fetchall())
+    while (check1 == []):
+        return jsonify({'error' : 'Already deleted!'})
+    
+    d1 = (postid,)
+    c.execute('DELETE FROM posts WHERE post_id=?', d1)
+    c.execute('DELETE FROM vote WHERE post_id=?', d1)
+    
+    con1 = 1
+    conn.commit()
+    conn.close()
+    return jsonify({'count' : con1})
 
     
     

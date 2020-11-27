@@ -2,6 +2,35 @@
 <html>
 <head>
 	<link href={{ url_for('static', filename='../styles/view21.css') }} rel="stylesheet"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+{% for key,value in data.items() %}
+<script>
+$(document).ready(function() { 
+		$('#hi1{{key[1]}}').on('submit',function(event) { 
+			$.ajax({
+			data : {
+				postid : $('#post11{{key[1]}}').val()
+			},
+			type : 'POST',
+			url : '/delete'
+		})
+		.done(function(data) {
+
+			if (data.error) {
+				alert("Post deleted.")
+			}
+			else {
+				$('#tr{{key[1]}}').fadeOut(1000);
+			}
+		});
+
+		event.preventDefault();
+	}); 
+}); 
+</script>
+{% endfor %}
+
 <!-- <style> -->
 <!-- table { -->
   <!-- font-family: arial, sans-serif; -->
@@ -34,9 +63,13 @@
   </tr>
 {% for key,value in data.items() %}
   
-  <tr>
+  <tr id='tr{{key[1]}}'>
     <td><a href="/posts/{{key[1]}}/{{hashedcode}}">{{key[0]}}</td>
     <td>{{value}}</td>
+	<td>
+	<form id='hi1{{key[1]}}' class="form-inline">
+	<input type="hidden" id="post11{{key[1]}}" name="count22" value={{key[1]}}>
+	<button type="submit">Delete</button></form></td>
 	<!-- <td><a href="/posts/{{key[1]}}">VIEW</a></td> -->
   </tr>
 {% endfor %}
