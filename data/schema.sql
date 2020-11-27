@@ -18,8 +18,9 @@ CREATE TABLE posts(
 );
 
 CREATE TABLE vote(
-    post_id text primary key,
+    post_id text,
     userID text,
+	idx int primary key,
 	FOREIGN KEY (post_id)
         REFERENCES posts (post_id)
 );

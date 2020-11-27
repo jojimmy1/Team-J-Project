@@ -6,12 +6,12 @@
 	<!-- <script rel = "stylesheet" src = "../scripts/view3.js"></script> -->
 <script>
 $(document).ready(function() { 
-		$('#hi1').on('submit',function(event) { 
+		$('[name=hi1]').on('submit',function(event) { 
 			$.ajax({
 			data : {
-				userid : $('#id11').val(),
-				count1 : $('#count11').val(),
-				postid : $('#post11').val()
+				userid : $('[name=id11]').val(),
+				count1 : $('[name=count11]').val(),
+				postid : $('[name=post11]').val()
 			},
 			type : 'POST',
 			url : '/vote'
@@ -28,12 +28,12 @@ $(document).ready(function() {
 
 		event.preventDefault();
 	}); 
-		$('#hi2').on('submit',function(event) { 
+		$('[name=hi2]').on('submit',function(event) { 
 			$.ajax({
 			data : {
-				userid : $('#id22').val(),
-				count1 : $('#count22').val(),
-				postid : $('#post22').val()
+				userid : $('[name=id22]').val(),
+				count1 : $('[name=count22]').val(),
+				postid : $('[name=post22]').val()
 			},
 			type : 'POST',
 			url : '/vote'
@@ -90,15 +90,15 @@ $(document).ready(function() {
     <td><a href="/posts/{{key[1]}}/{{hashedcode}}">{{key[0]}}</td>
     <td>{{value[0]}}</td>
 	<td id='vote00'>{{value[1]}}</td>
-	<td><form id='hi1' class="form-inline">
-		<input type="hidden" id="id11" name="userid" value={{hashedcode}}>
-		<input type="hidden" id="post11" name="postid" value={{key[1]}}>
-		<input type="hidden" id="count11" name="count1" value=1>
+	<td><form name='hi1' class="form-inline">
+		<input type="hidden" id="id11" name="id11" value={{hashedcode}}>
+		<input type="hidden" id="post11" name="post11" value={{key[1]}}>
+		<input type="hidden" id="count11" name="count11" value=1>
 		<button type="submit">Upvote</button></form>
-		<form id='hi2' class="form-inline">
-		<input type="hidden" id="id22" name="userid" value={{hashedcode}}>
-		<input type="hidden" id="post22" name="postid" value={{key[1]}}>
-		<input type="hidden" id="count22" name="count1" value=-1>
+		<form name='hi2' class="form-inline">
+		<input type="hidden" id="id22" name="id22" value={{hashedcode}}>
+		<input type="hidden" id="post22" name="post22" value={{key[1]}}>
+		<input type="hidden" id="count22" name="count22" value=-1>
 		<button type="submit">Downvote</button>
 	</form></td>
 	<!-- <td><a href="/posts/{{key[1]}}">VIEW</a></td> -->

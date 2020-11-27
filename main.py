@@ -138,6 +138,8 @@ def vote1():
     count1 = flask.request.form['count1']
     postid = flask.request.form['postid']
     
+    print("1111111111111111111111111111111111111\nweoriuwer")
+    
     id = (c.execute("SELECT userID from users where hashcode = ?", (userid,)).fetchall())
     userid = id[0][0]
     # print(userid,count1,postid)
@@ -146,9 +148,20 @@ def vote1():
     check1 = (c.execute("SELECT post_id from vote where userID = ? AND post_id = ?", (userid,postid)).fetchall())
     if (check1 != []):
         return jsonify({'error' : 'Already voted!'})
-        
-    tobeInserted = (postid,userid)
-    c.execute('INSERT INTO vote VALUES(?, ?)', tobeInserted)
+    
+    time1 = datetime.datetime.now()
+    time1 = str(time1)
+    idx = hash_id(time1)
+    idx_str = str(idx)
+    #check if id unique
+    check1 = (c.execute("SELECT * from vote where idx = ?", (idx_str,)).fetchall())
+    while (check1 != []):
+        idx = idx + 1
+        idx_str = str(idx)
+        check1 = (c.execute("SELECT * from vote where idx = ?", (idx_str,)).fetchall())
+    
+    tobeInserted = (postid,userid,idx)
+    c.execute('INSERT INTO vote VALUES(?, ?,?)', tobeInserted)
     
     count1 = int(count1)
     newcount = (c.execute("SELECT vote_count from posts where post_id = ?", (postid,)).fetchall())
