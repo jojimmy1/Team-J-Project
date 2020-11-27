@@ -138,21 +138,28 @@ def vote1():
     count1 = flask.request.form['count1']
     postid = flask.request.form['postid']
     
-    print(userid,count1,postid)
-    return jsonify({'error' : 'Missing data!'})
+    id = (c.execute("SELECT userID from users where hashcode = ?", (userid,)).fetchall())
+    userid = id[0][0]
+    # print(userid,count1,postid)
+    # return jsonify({'error' : 'Nope!'})
     
-    # check1 = (c.execute("SELECT post_id from vote where userID = ? AND post_id = ?", (userid,postid)).fetchall())
-    # if (check1 != []):
-        # return jsonify({'error' : 'Already voted!'})
+    check1 = (c.execute("SELECT post_id from vote where userID = ? AND post_id = ?", (userid,postid)).fetchall())
+    if (check1 != []):
+        return jsonify({'error' : 'Already voted!'})
+        
+    tobeInserted = (postid,userid)
+    c.execute('INSERT INTO vote VALUES(?, ?)', tobeInserted)
     
-    # count1 = int(count1)
-    # newcount = (c.execute("SELECT vote_count from posts where post_id = ?", (postid,)).fetchall())
-    # newcount = newcount[0][0]
-    # newcount = newcount + count1
+    count1 = int(count1)
+    newcount = (c.execute("SELECT vote_count from posts where post_id = ?", (postid,)).fetchall())
+    newcount = newcount[0][0]
+    newcount = newcount + count1
     
-    # set1 = (newcount,postid)
-    # c.execute('UPDATE posts SET vote_count = ? WHERE post_id = ?', set1)
-    # return jsonify({'count' : newcount})
+    set1 = (newcount,postid)
+    c.execute('UPDATE posts SET vote_count = ? WHERE post_id = ?', set1)
+    conn.commit()
+    conn.close()
+    return jsonify({'count' : newcount})
 
     
     
