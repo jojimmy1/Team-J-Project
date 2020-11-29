@@ -59,7 +59,12 @@ def submit_form():
 
 @app.route("/<hashedcode>/create", methods=['GET', 'POST'])
 def create_post(hashedcode):
-    return flask.render_template("create_post.html",hashedcode = hashedcode)
+    conn = sqlite3.connect('./data/database.db')
+    c = conn.cursor()
+    
+    name1 = (c.execute("SELECT first_name,last_name from users WHERE hashcode = ?", (hashedcode,)).fetchall())
+    name2 = name1[0][0] + ' ' + name1[0][1]
+    return flask.render_template("create_post.html",hashedcode = hashedcode,name2 = name2)
 
 @app.route("/create_done", methods=['POST'])
 def create_post_done():
