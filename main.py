@@ -94,8 +94,8 @@ def create_post_done():
         check1 = (c.execute("SELECT * from posts where post_id = ?", (post_str,)).fetchall())
     
     #insert
-    tobeInserted = (post_str,title1,content1,time1,vote_count,"",id)
-    c.execute('INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?, ?)', tobeInserted)
+    tobeInserted = (post_str,title1,content1,time1,vote_count,id)
+    c.execute('INSERT INTO posts VALUES(?, ?, ?, ?, ?, ?)', tobeInserted)
     
     conn.commit()
     conn.close()

@@ -12,7 +12,6 @@ CREATE TABLE posts(
     content text,
     create_time text,
     vote_count int,
-    voted_userID text,
     userID text,
     FOREIGN KEY (userID)
         REFERENCES users (userID)
