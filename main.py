@@ -12,16 +12,16 @@ def hash_id(id): # Creates 8 digit hashcode (int)
 #############################
 
 # app = flask.Flask(__name__)
-app = flask.Flask(__name__, static_folder='styles/')
+app = flask.Flask(__name__, static_folder='static/')
 
 @app.route("/register", methods=['GET','POST'])
 def register():
     return flask.render_template("register.html")
 
-app.config["IMGU"] = "./styles/pic"
+app.config["IMGU"] = "./static/pic"
 @app.route("/createUser", methods=['POST'])
 def submit_form():
-    conn = sqlite3.connect('data/database.db')
+    conn = sqlite3.connect('static/data/database.db')
     c = conn.cursor()
     first_name = flask.request.form['fname']
     last_name = flask.request.form['lname']
@@ -59,7 +59,7 @@ def submit_form():
 
 @app.route("/<hashedcode>/create", methods=['GET', 'POST'])
 def create_post(hashedcode):
-    conn = sqlite3.connect('./data/database.db')
+    conn = sqlite3.connect('./static/data/database.db')
     c = conn.cursor()
     
     name1 = (c.execute("SELECT first_name,last_name from users WHERE hashcode = ?", (hashedcode,)).fetchall())
@@ -68,7 +68,7 @@ def create_post(hashedcode):
 
 @app.route("/create_done", methods=['POST'])
 def create_post_done():
-    conn = sqlite3.connect('./data/database.db')
+    conn = sqlite3.connect('./static/data/database.db')
     c = conn.cursor()
     
     #get user id
@@ -107,7 +107,7 @@ def create_post_done():
 @app.route("/posts/<postid>/<hashedcode>", methods=['GET', 'POST'])
 def display2(postid,hashedcode):
     postid = str(postid)
-    conn = sqlite3.connect('./data/database.db')
+    conn = sqlite3.connect('./static/data/database.db')
     c = conn.cursor()
     
     name1 = (c.execute("SELECT first_name,last_name from users WHERE hashcode = ?", (hashedcode,)).fetchall())
@@ -125,7 +125,7 @@ def display2(postid,hashedcode):
 @app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
 def seeall(hashedcode): 
     db_dict = {}
-    conn = sqlite3.connect('data/database.db')
+    conn = sqlite3.connect('static/data/database.db')
     c = conn.cursor()
     
     #get id
@@ -135,7 +135,7 @@ def seeall(hashedcode):
     name1 = (c.execute("SELECT first_name,last_name,filename1 from users WHERE userID = ?", (id,)).fetchall())
     name2 = name1[0][0] + ' ' + name1[0][1]
     filename1 = name1[0][2]
-    filename2 = "/styles/../styles/pic/" + filename1
+    filename2 = "/static/../static/pic/" + filename1
     filename1 = filename2
     print(filename1)
     
@@ -149,7 +149,7 @@ def seeall(hashedcode):
 @app.route("/<hashedcode>/feed", methods=['GET', 'POST'])
 def feedpage(hashedcode): 
     db_dict = {}
-    conn = sqlite3.connect('data/database.db')
+    conn = sqlite3.connect('static/data/database.db')
     c = conn.cursor()
     
     #get id
@@ -177,7 +177,7 @@ def feedpage(hashedcode):
 
 @app.route('/vote', methods=['POST'])
 def vote1():
-    conn = sqlite3.connect('data/database.db')
+    conn = sqlite3.connect('static/data/database.db')
     c = conn.cursor()
     userid = flask.request.form['userid']
     count1 = flask.request.form['count1']
@@ -221,7 +221,7 @@ def vote1():
 @app.route('/delete', methods=['POST'])
 def delete1():
     print('hiiiiiiiii')
-    conn = sqlite3.connect('data/database.db')
+    conn = sqlite3.connect('static/data/database.db')
     c = conn.cursor()
     postid = flask.request.form['postid']
     

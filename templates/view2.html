@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link href={{ url_for('static', filename='../styles/view21.css') }} rel="stylesheet"/>
+	<link href={{ url_for('static', filename='../static/styles/view21.css') }} rel="stylesheet"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 {% for key,value in data.items() %}
@@ -60,7 +60,7 @@ $(document).ready(function() {
 </head>
 <body>
 <a href="/{{hashedcode}}/feed">
-<img src="{{ url_for('static', filename='../styles/pic/logo.jpg') }}" alt="logo" style="width:120px;height:42px;">
+<img src="{{ url_for('static', filename='../static/pic/logo.jpg') }}" alt="logo" style="width:120px;height:42px;">
 </a>
 <a href="/{{hashedcode}}/profile" style="float:right">{{name2}}</a>
 <br>
