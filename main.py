@@ -346,8 +346,9 @@ def delete1():
         return jsonify({'error' : 'Already deleted!'})
     
     d1 = (postid,)
-    c.execute('DELETE FROM posts WHERE post_id=?', d1)
     c.execute('DELETE FROM vote WHERE post_id=?', d1)
+    c.execute('DELETE FROM posts WHERE post_id=?', d1)
+    
     
     con1 = 1
     conn.commit()
