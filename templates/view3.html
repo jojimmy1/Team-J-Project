@@ -72,9 +72,16 @@ $(document).ready(function() {
 <!-- } -->
 <!-- </style> -->
 {% endfor %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
+
 <body>
-<a href="/{{hashedcode}}/feed">
+
+<div class="container">
+
+<a href="/{{hashedcode}}/feed/1">
 <img src="{{ url_for('static', filename='../static/pic/logo.jpg') }}" alt="logo" style="width:120px;height:42px;">
 </a>
 <a href="/{{hashedcode}}/profile" style="float:right">{{name2}}</a>
@@ -115,6 +122,18 @@ $(document).ready(function() {
   </tr>
 {% endfor %}
 </table>
+
+<nav aria-label="Page navigation" style="justify-content: center;">
+	<ul class="pagination justify-content-end" style="justify-content: center;">
+	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/1">1</a></li>
+	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/2">2</a></li>
+	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/3">3</a></li>
+	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/4">4</a></li>
+	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/5">5</a></li>
+	</ul>
+  </nav>
+
+</div>
 
 </body>
 </html>

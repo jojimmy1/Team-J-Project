@@ -41,7 +41,7 @@ def submit_form():
     check1 = (c.execute("SELECT hashcode from users where userID = ?", (userID,)).fetchall())
     if (check1 != []):
         hashcode = check1[0][0]
-        url1 = f"/{hashcode}/feed"
+        url1 = f"/{hashcode}/feed/1"
         return redirect(url1)
     
     print('Hashcode: ' + str(hashcode))
@@ -54,7 +54,7 @@ def submit_form():
         c.execute('INSERT INTO users VALUES(?, ?, ?, ?,?)', user)
     conn.commit()
     # return "User has been created." # TODO: this should link to Feed page
-    url1 = f"/{hashcode}/feed"
+    url1 = f"/{hashcode}/feed/1"
     return redirect(url1)
 
 @app.route("/<hashedcode>/create", methods=['GET', 'POST'])
@@ -174,6 +174,37 @@ def feedpage(hashedcode):
     print(db_dict)
     return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode, name2 = name2)
 
+# Feed page using pagination
+@app.route("/<hashedcode>/feed/<pagenum>", methods=['GET', 'POST'])
+def feedpage_pagination(hashedcode, pagenum): 
+    db_dict = {}
+    conn = sqlite3.connect('static/data/database.db')
+    c = conn.cursor()
+    
+    #get id
+    id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
+    # list of tuple
+    id = id[0][2]
+    
+    name1 = (c.execute("SELECT first_name,last_name from users WHERE userID = ?", (id,)).fetchall())
+    name2 = name1[0][0] + ' ' + name1[0][1]
+    print(name2)
+
+    offset = (int(pagenum) - 1) * 5
+    print(f'Offset = {offset}')
+    
+    fetchall = (c.execute("SELECT title,content,post_id,vote_count,create_time from posts WHERE userID != ? ORDER BY create_time DESC LIMIT 5 OFFSET ?", (id,offset)).fetchall())
+    for element in (fetchall):
+        timeget = datetime.strptime(element[4], "%Y-%m-%d %H:%M:%S.%f")
+        now1 = datetime.now()
+        diff1 = now1 - timeget
+        daysec = 24 * 60 * 60 * (diff1.days)
+        totalsec = daysec + diff1.seconds
+        half60 = totalsec / 60 / 60
+        half30 = 0.5*round(half60/0.5)
+        db_dict.update({(element[0],element[2]): (element[1],element[3],half30)})
+    print(db_dict)
+    return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode, name2 = name2, pagenum = pagenum)
 
 @app.route('/vote', methods=['POST'])
 def vote1():
