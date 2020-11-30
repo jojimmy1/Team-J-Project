@@ -100,7 +100,7 @@ def create_post_done():
     conn.commit()
     conn.close()
     # return "Post created" # TODO: Should redirect to profile
-    url1 = f"/{hashedcode}/profile"
+    url1 = f"/{hashedcode}/profile/1"
     return redirect(url1)
 
 # read post
@@ -121,9 +121,33 @@ def display2(postid,hashedcode):
     # conn.close()
     return flask.render_template('view_post.html', content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashedcode, hashedcode = hashedcode, name2 = name2)
 
-# profile page
-@app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
-def seeall(hashedcode): 
+# profile page (keeping the original commented just in case)
+# @app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
+# def seeall(hashedcode): 
+#     db_dict = {}
+#     conn = sqlite3.connect('static/data/database.db')
+#     c = conn.cursor()
+    
+#     #get id
+#     id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
+#     id = id[0][2]
+    
+#     name1 = (c.execute("SELECT first_name,last_name,filename1 from users WHERE userID = ?", (id,)).fetchall())
+#     name2 = name1[0][0] + ' ' + name1[0][1]
+#     filename1 = name1[0][2]
+#     filename2 = "/static/../static/pic/" + filename1
+#     filename1 = filename2
+#     print(filename1)
+    
+#     fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC", (id,)).fetchall())
+#     for element in (fetchall):
+#         db_dict.update({(element[0],element[2]): element[1]})
+#     print(db_dict)
+#     return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode, name2 = name2, filename1 = filename1)
+
+# Profile page using pagination
+@app.route("/<hashedcode>/profile/<pagenum>", methods=['GET', 'POST'])
+def profilePagination(hashedcode, pagenum): 
     db_dict = {}
     conn = sqlite3.connect('static/data/database.db')
     c = conn.cursor()
@@ -138,45 +162,47 @@ def seeall(hashedcode):
     filename2 = "/static/../static/pic/" + filename1
     filename1 = filename2
     print(filename1)
+
+    offset = (int(pagenum) - 1) * 5
     
-    fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC", (id,)).fetchall())
+    fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC LIMIT 5 OFFSET ?", (id,offset)).fetchall())
     for element in (fetchall):
         db_dict.update({(element[0],element[2]): element[1]})
     print(db_dict)
-    return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode, name2 = name2, filename1 = filename1)
+    return flask.render_template('view2.html', data = db_dict, hashedcode = hashedcode, name2 = name2, filename1 = filename1, pagenum = pagenum)
 
-#feed page
-@app.route("/<hashedcode>/feed", methods=['GET', 'POST'])
-def feedpage(hashedcode): 
-    db_dict = {}
-    conn = sqlite3.connect('static/data/database.db')
-    c = conn.cursor()
+#feed page 
+# @app.route("/<hashedcode>/feed", methods=['GET', 'POST'])
+# def feedpage(hashedcode): 
+#     db_dict = {}
+#     conn = sqlite3.connect('static/data/database.db')
+#     c = conn.cursor()
     
-    #get id
-    id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
-    # list of tuple
-    id = id[0][2]
+#     #get id
+#     id = (c.execute("SELECT * from users where hashcode = ?", (hashedcode,)).fetchall())
+#     # list of tuple
+#     id = id[0][2]
     
-    name1 = (c.execute("SELECT first_name,last_name from users WHERE userID = ?", (id,)).fetchall())
-    name2 = name1[0][0] + ' ' + name1[0][1]
-    print(name2)
+#     name1 = (c.execute("SELECT first_name,last_name from users WHERE userID = ?", (id,)).fetchall())
+#     name2 = name1[0][0] + ' ' + name1[0][1]
+#     print(name2)
     
-    fetchall = (c.execute("SELECT title,content,post_id,vote_count,create_time from posts WHERE userID != ? ORDER BY create_time DESC", (id,)).fetchall())
-    for element in (fetchall):
-        timeget = datetime.strptime(element[4], "%Y-%m-%d %H:%M:%S.%f")
-        now1 = datetime.now()
-        diff1 = now1 - timeget
-        daysec = 24 * 60 * 60 * (diff1.days)
-        totalsec = daysec + diff1.seconds
-        half60 = totalsec / 60 / 60
-        half30 = 0.5*round(half60/0.5)
-        db_dict.update({(element[0],element[2]): (element[1],element[3],half30)})
-    print(db_dict)
-    return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode, name2 = name2)
+#     fetchall = (c.execute("SELECT title,content,post_id,vote_count,create_time from posts WHERE userID != ? ORDER BY create_time DESC", (id,)).fetchall())
+#     for element in (fetchall):
+#         timeget = datetime.strptime(element[4], "%Y-%m-%d %H:%M:%S.%f")
+#         now1 = datetime.now()
+#         diff1 = now1 - timeget
+#         daysec = 24 * 60 * 60 * (diff1.days)
+#         totalsec = daysec + diff1.seconds
+#         half60 = totalsec / 60 / 60
+#         half30 = 0.5*round(half60/0.5)
+#         db_dict.update({(element[0],element[2]): (element[1],element[3],half30)})
+#     print(db_dict)
+#     return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode, name2 = name2)
 
 # Feed page using pagination
 @app.route("/<hashedcode>/feed/<pagenum>", methods=['GET', 'POST'])
-def feedpage_pagination(hashedcode, pagenum): 
+def feedpagePagination(hashedcode, pagenum): 
     db_dict = {}
     conn = sqlite3.connect('static/data/database.db')
     c = conn.cursor()
@@ -191,8 +217,7 @@ def feedpage_pagination(hashedcode, pagenum):
     print(name2)
 
     offset = (int(pagenum) - 1) * 5
-    print(f'Offset = {offset}')
-    
+
     fetchall = (c.execute("SELECT title,content,post_id,vote_count,create_time from posts WHERE userID != ? ORDER BY create_time DESC LIMIT 5 OFFSET ?", (id,offset)).fetchall())
     for element in (fetchall):
         timeget = datetime.strptime(element[4], "%Y-%m-%d %H:%M:%S.%f")
