@@ -165,9 +165,20 @@ def profilePagination(hashedcode, pagenum):
 
     offset = (int(pagenum) - 1) * 5
     
-    fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC LIMIT 5 OFFSET ?", (id,offset)).fetchall())
+    # fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID = ? ORDER BY create_time DESC LIMIT 5 OFFSET ?", (id,offset)).fetchall())
+    # for element in (fetchall):
+        # db_dict.update({(element[0],element[2]): element[1]})
+    
+    fetchall = (c.execute("SELECT title,content,post_id,vote_count,create_time from posts WHERE userID = ? ORDER BY create_time DESC LIMIT 5 OFFSET ?", (id,offset)).fetchall())
     for element in (fetchall):
-        db_dict.update({(element[0],element[2]): element[1]})
+        timeget = datetime.strptime(element[4], "%Y-%m-%d %H:%M:%S.%f")
+        now1 = datetime.now()
+        diff1 = now1 - timeget
+        daysec = 24 * 60 * 60 * (diff1.days)
+        totalsec = daysec + diff1.seconds
+        half60 = totalsec / 60 / 60
+        half30 = 0.5*round(half60/0.5)
+        db_dict.update({(element[0],element[2]): (element[1],element[3],half30)})
     print(db_dict)
     
     ######################

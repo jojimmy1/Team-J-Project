@@ -92,14 +92,18 @@ $(document).ready(function() {
 <table>
   <tr>
 	<th>Title</th>
-	<th>Content</th> 
+	<th>Content</th>
+	<th>Time</th>
+	<th>Vote Count</th>
 	<th>Delete</th>
   </tr>
 {% for key,value in data.items() %}
   
   <tr id='tr{{key[1]}}'>
     <td><a href="/posts/{{key[1]}}/{{hashedcode}}">{{key[0]}}</td>
-    <td>{{value}}</td>
+    <td>{{value[0]}}</td>
+	<td>{{value[2]}} hour(s) ago</td>
+	<td>{{value[1]}}</td>
 	<td>
 	<form id='hi1{{key[1]}}' class="form-inline">
 	<input type="hidden" id="post11{{key[1]}}" name="count22" value={{key[1]}}>
