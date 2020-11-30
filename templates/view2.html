@@ -60,6 +60,38 @@ $(document).ready(function() {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style>
+	table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+	white-space: nowrap;
+	}
+
+	td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+	width: 50%;
+	}
+
+	td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	}
+
+	.row-title {width: 20%;}
+
+	.row-content {width: 50%;}
+
+	.row-delete {width: 5%;}
+
+	tr:nth-child(even) {
+	background-color: #dddddd;
+	}
+</style>
 </head>
 
 <body>
@@ -80,9 +112,9 @@ $(document).ready(function() {
 
 <table>
   <tr>
-	<th>Title</th>
-	<th>Content</th> 
-	<th>Delete</th>
+	<th class="row-title">Title</th>
+	<th class="row-content">Content</th> 
+	<th class="row-delete">Delete</th>
   </tr>
 {% for key,value in data.items() %}
   
