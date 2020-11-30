@@ -7,6 +7,7 @@
 {% for key,value in data.items() %}
 <script>
 $(document).ready(function() { 
+		$('#{{pagenum}}').attr("class", "active");
 		$('#hi1{{key[1]}}').on('submit',function(event) { 
 			$.ajax({
 			data : {
@@ -53,29 +54,24 @@ $(document).ready(function() {
 	});
 }); 
 </script>
-<style>
-	table {
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
-	table-layout: fixed;
-	white-space: nowrap;
-	}
+<!-- <style> -->
+<!-- table { -->
+  <!-- font-family: arial, sans-serif; -->
+  <!-- border-collapse: collapse; -->
+  <!-- width: 100%; -->
+<!-- } -->
 
-	td {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	}
+<!-- td, th { -->
+  <!-- border: 1px solid #dddddd; -->
+  <!-- text-align: left; -->
+  <!-- padding: 8px; -->
+  <!-- width: 50%; -->
+<!-- } -->
 
-	.row-title{width: 10%;}
-	.row-content{width: 40%;}
-	.row-time{width: 8%;}
-	.row-count{width: 5%;}
-	.row-vote{width: 5%;}
-
-	tr:nth-child(even) {background-color: #dddddd;}
-</style>
+<!-- tr:nth-child(even) { -->
+  <!-- background-color: #dddddd; -->
+<!-- } -->
+<!-- </style> -->
 {% endfor %}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -100,11 +96,11 @@ $(document).ready(function() {
 <table>
 
   <tr>
-	<th class="row-title">Title</th>
-    <th class="row-content">Content</th>
-	<th class="row-time">Time</th>
-	<th class="row-count">Vote Count</th>
-	<th class="row-vote">Vote</th>
+	<th>Title</th>
+    <th>Content</th>
+	<th>Time</th>
+	<th>Vote Count</th>
+	<th>Vote</th>
   </tr>
 {% for key,value in data.items() %}
   
@@ -131,16 +127,16 @@ $(document).ready(function() {
 
 <nav aria-label="Page navigation">
 	<ul class="pagination justify-content-center" style="margin:20px 0">
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/1">1</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/2">2</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/3">3</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/4">4</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/5">5</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/6">6</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/7">7</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/8">8</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/9">9</a></li>
-	  <li class="page-item"><a class="page-link" href="/{{hashedcode}}/feed/10">10</a></li>
+	  <li class="page-item" id=1><a class="page-link" href="/{{hashedcode}}/feed/1">1</a></li>
+	  <li class="page-item" id=2><a class="page-link" href="/{{hashedcode}}/feed/2">2</a></li>
+	  <li class="page-item" id=3><a class="page-link" href="/{{hashedcode}}/feed/3">3</a></li>
+	  <li class="page-item" id=4><a class="page-link" href="/{{hashedcode}}/feed/4">4</a></li>
+	  <li class="page-item" id=5><a class="page-link" href="/{{hashedcode}}/feed/5">5</a></li>
+	  <li class="page-item" id=6><a class="page-link" href="/{{hashedcode}}/feed/6">6</a></li>
+	  <li class="page-item" id=7><a class="page-link" href="/{{hashedcode}}/feed/7">7</a></li>
+	  <li class="page-item" id=8><a class="page-link" href="/{{hashedcode}}/feed/8">8</a></li>
+	  <li class="page-item" id=9><a class="page-link" href="/{{hashedcode}}/feed/9">9</a></li>
+	  <li class="page-item" id=10><a class="page-link" href="/{{hashedcode}}/feed/10">10</a></li>
 	</ul>
   </nav>
 

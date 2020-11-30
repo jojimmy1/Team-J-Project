@@ -2,8 +2,6 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed;
-  white-space: nowrap;
 }
 
 td, th {
@@ -11,22 +9,6 @@ td, th {
   text-align: left;
   padding: 8px;
   width: 50%;
-}
-
-td {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.row-title {width: 30%;}
-
-.row-content {
-  width: 50%;
-}
-
-.row-delete {
-  width: 20%;
 }
 
 tr:nth-child(even) {
