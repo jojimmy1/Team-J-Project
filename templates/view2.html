@@ -40,6 +40,16 @@ $(document).ready(function() {
 </script>
 {% endfor %}
 
+{% for key,value in dict9.items() %}
+<script>
+$(document).ready(function() { 
+		$('#{{value}}').attr("style", "display:none;");
+}); 
+</script>
+{% endfor %}
+
+
+
 <!-- <style> -->
 <!-- table { -->
   <!-- font-family: arial, sans-serif; -->
