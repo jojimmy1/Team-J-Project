@@ -229,8 +229,21 @@ def feedpagePagination(hashedcode, pagenum):
         half30 = 0.5*round(half60/0.5)
         db_dict.update({(element[0],element[2]): (element[1],element[3],half30)})
     print(db_dict)
+    
+    fetchall = (c.execute("SELECT title,content,post_id from posts WHERE userID != ? ORDER BY create_time DESC", (id,)).fetchall())
+    count1 = 0
+    for element in (fetchall):
+        count1 = count1 + 1
+    totalpage = count1 / 5
+    totalpage = round(totalpage)
+    if (totalpage * 5 < count1):
+        totalpage = totalpage + 1
+    print(111111111111111111111111111)
+    print(count1)
+    
     dict2 ={}
-    i1 = 8
+    i1 = totalpage + 1
+    # i1=9
     while i1 <= 10:
         dict2.update({i1+999: i1})
         i1 = i1 + 1
