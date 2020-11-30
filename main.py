@@ -119,7 +119,17 @@ def display2(postid,hashedcode):
     # return message # TODO: Read Post frontend
     # conn.commit()
     # conn.close()
-    return flask.render_template('view_post.html', content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashedcode, hashedcode = hashedcode, name2 = name2)
+    fetchall = (c.execute("SELECT vote_count,create_time from posts WHERE post_id = ?", (postid,)).fetchall())
+    for element in (fetchall):
+        timeget = datetime.strptime(element[1], "%Y-%m-%d %H:%M:%S.%f")
+        now1 = datetime.now()
+        diff1 = now1 - timeget
+        daysec = 24 * 60 * 60 * (diff1.days)
+        totalsec = daysec + diff1.seconds
+        half60 = totalsec / 60 / 60
+        half30 = 0.5*round(half60/0.5)
+        count99 = element[0]
+    return flask.render_template('view_post.html',postid = postid,count99 = count99,half30 = half30, content1 = post9[0][2], id1 = post9[0][0], title1 = post9[0][1], hashid1 = hashedcode, hashedcode = hashedcode, name2 = name2)
 
 # profile page (keeping the original commented just in case)
 # @app.route("/<hashedcode>/profile", methods=['GET', 'POST'])
