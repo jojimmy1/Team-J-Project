@@ -229,7 +229,12 @@ def feedpagePagination(hashedcode, pagenum):
         half30 = 0.5*round(half60/0.5)
         db_dict.update({(element[0],element[2]): (element[1],element[3],half30)})
     print(db_dict)
-    return flask.render_template('view3.html', data = db_dict, hashedcode = hashedcode, name2 = name2, pagenum = pagenum)
+    dict2 ={}
+    i1 = 8
+    while i1 <= 10:
+        dict2.update({i1+999: i1})
+        i1 = i1 + 1
+    return flask.render_template('view3.html',dict2 = dict2, data = db_dict, hashedcode = hashedcode, name2 = name2, pagenum = pagenum)
 
 @app.route('/vote', methods=['POST'])
 def vote1():

@@ -7,6 +7,7 @@
 {% for key,value in data.items() %}
 <script>
 $(document).ready(function() { 
+		
 		$('#{{pagenum}}').attr("class", "active");
 		$('#hi1{{key[1]}}').on('submit',function(event) { 
 		if (confirm('Do you want to delete the post {{key[0]}}?')) {
