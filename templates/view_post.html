@@ -79,24 +79,27 @@ $(document).ready(function() {
 			</div>
 			<br>
 			<article>
-				<p>{{content1}}</p>
+			<!-- <textarea style="width:500px;height:500px; word-wrap:break-word;"> -->
+				<!-- <p></p> -->
+			<!-- </textarea> -->
+			<span style="width:800px; word-wrap:break-word; display:inline-block;"> 
+			   {{content1}}
+			</span>
 			</article>
 			<br>
 			<!-- <td><a href="/{{hashid1}}/profile">Back to Profile</a></td> -->
 		</div>
 	
 	<!-- 1111111111111 -->
-	<table>
+	
 
-	  <tr>
-		<th>Time</th>
-		<th>Vote Count</th>
-		<th>Vote</th>
-	  </tr>
-	  <tr>
-		<td>{{half30}} hour(s) ago</td>
-		<td id='vote00'>{{count99}}</td>
-		<td><form id='hi1' class="form-inline">
+
+	</div>
+	<div class="container">
+	<p>Time: {{half30}} hour(s) ago</p>
+	<p>Vote count:</p>
+	<p id='vote00'>{{count99}}</p>
+		<p><form id='hi1' class="form-inline">
 			<input type="hidden" id="id11" name="id11" value={{hashedcode}}>
 			<input type="hidden" id="post11" name="post11" value={{postid}}>
 			<input type="hidden" id="count11" name="count11" value=1>
@@ -106,11 +109,30 @@ $(document).ready(function() {
 			<input type="hidden" id="post22" name="post22" value={{postid}}>
 			<input type="hidden" id="count22" name="count22" value=-1>
 			<button type="submit">Downvote</button>
-		</form></td>
-	  </tr>
-	</table>
+		</form></p>
+	<!-- <table> -->
 
-
+	  <!-- <tr> -->
+		<!-- <th>Time</th> -->
+		<!-- <th>Vote Count</th> -->
+		<!-- <th>Vote</th> -->
+	  <!-- </tr> -->
+	  <!-- <tr> -->
+		<!-- <td>{{half30}} hour(s) ago</td> -->
+		<!-- <td id='vote00'>{{count99}}</td> -->
+		<!-- <td><form id='hi1' class="form-inline"> -->
+			<!-- <input type="hidden" id="id11" name="id11" value={{hashedcode}}> -->
+			<!-- <input type="hidden" id="post11" name="post11" value={{postid}}> -->
+			<!-- <input type="hidden" id="count11" name="count11" value=1> -->
+			<!-- <button type="submit">Upvote</button></form> -->
+			<!-- <form id='hi2' class="form-inline"> -->
+			<!-- <input type="hidden" id="id22" name="id22" value={{hashedcode}}> -->
+			<!-- <input type="hidden" id="post22" name="post22" value={{postid}}> -->
+			<!-- <input type="hidden" id="count22" name="count22" value=-1> -->
+			<!-- <button type="submit">Downvote</button> -->
+		<!-- </form></td> -->
+	  <!-- </tr> -->
+	<!-- </table> -->
 	</div>
 </body>
 
